@@ -5,8 +5,13 @@ import "styled-components";
 declare module "styled-components" {
   export interface DefaultTheme {
     borderColor: string;
-    fontColor: string;
     bgColor: string;
     accent: string;
+    colors: {
+      main: string;
+
+      dark?: string;
+      darkMedium?: string;
+    };
   }
 }
