@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { logUserIn } from "../apollo";
+
 import AuthButton from "../components/auth/AuthButton";
 import AuthFormBox from "../components/auth/AuthFormBox";
-
 import AuthInput from "../components/auth/AuthInput";
-import Layout from "../components/auth/Layout";
+import AuthLayout from "../components/auth/AuthLayout";
 import ErrorMessage from "../components/ErrorMessage";
 import PageTitle from "../components/PageTitle";
 
@@ -104,7 +104,7 @@ const Login = () => {
   };
 
   return (
-    <Layout>
+    <AuthLayout>
       <PageTitle title="LogIn" />
       <AuthFormBox title="login">
         <Form onSubmit={handleSubmit(onValid)}>
@@ -143,7 +143,7 @@ const Login = () => {
         </Form>
         {state?.message && <Notification>{state?.message}</Notification>}
       </AuthFormBox>
-    </Layout>
+    </AuthLayout>
   );
 };
 

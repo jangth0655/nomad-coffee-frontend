@@ -10,3 +10,5 @@ export const GlobalStyles = createGlobalStyle`
     font-family:'Open Sans', sans-serif;
   }  
 `;
+
+//transition: 150ms all cubic-bezier(0.4, 0, 0.2, 1);

@@ -1,13 +1,79 @@
 import { useNavigate } from "react-router-dom";
-import { logUserOut } from "../apollo";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Layout from "../components/Layout";
+import styled from "styled-components";
+import { gql, useQuery } from "@apollo/client";
+import { ShopWithUser } from "../interface/interface";
+import { useState } from "react";
+import CoffeeItem from "../components/coffeeShop/CoffeeItem";
+import { USER_FRAGMENT } from "../fragment";
+
+const SEE_COFFEE_SHOPS = gql`
+  ${USER_FRAGMENT}
+  query seeCoffeeShops($page: Int) {
+    seeCoffeeShops(page: $page) {
+      id
+      name
+      payload
+      photos {
+        id
+        url
+      }
+      slug
+      user {
+        ...UserFragment
+      }
+    }
+  }
+`;
+
+const Upload = styled.div`
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: rgb(75 85 99);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  transition: 150ms all cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    background-color: ${(props) => props.theme.colors.darkest};
+  }
+`;
+
+interface CoffeeShops {
+  seeCoffeeShops: ShopWithUser[];
+}
 
 const Home = () => {
   const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const { data } = useQuery<CoffeeShops>(SEE_COFFEE_SHOPS, {
+    variables: {
+      page,
+    },
+  });
+
+  const onCreateShop = () => {
+    navigate("/shops/uploads");
+  };
+
   return (
-    <div>
-      <h1>Home</h1>
-      <button onClick={() => logUserOut(navigate)}>logout</button>
-    </div>
+    <Layout title="Home" showing={true} back={false}>
+      {data?.seeCoffeeShops.map((item) => (
+        <CoffeeItem key={item.id} {...item} />
+      ))}
+
+      <Upload onClick={() => onCreateShop()}>
+        <FontAwesomeIcon icon={faPlus} />
+      </Upload>
+    </Layout>
   );
 };
 

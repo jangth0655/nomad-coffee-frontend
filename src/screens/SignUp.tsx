@@ -7,7 +7,8 @@ import AuthButton from "../components/auth/AuthButton";
 import AuthFormBox from "../components/auth/AuthFormBox";
 
 import AuthInput from "../components/auth/AuthInput";
-import Layout from "../components/auth/Layout";
+import AuthLayout from "../components/auth/AuthLayout";
+
 import ErrorMessage from "../components/ErrorMessage";
 import PageTitle from "../components/PageTitle";
 import routes from "../routes";
@@ -123,7 +124,7 @@ const SignUp = () => {
   };
 
   return (
-    <Layout>
+    <AuthLayout>
       <PageTitle title="Sign Up" />
       <AuthFormBox title="signup">
         <Form onSubmit={handleSubmit(onValid)}>
@@ -189,7 +190,7 @@ const SignUp = () => {
           )}
         </Form>
       </AuthFormBox>
-    </Layout>
+    </AuthLayout>
   );
 };
 

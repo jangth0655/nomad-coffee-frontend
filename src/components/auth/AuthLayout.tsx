@@ -55,7 +55,7 @@ const Layer = styled.div`
   border-radius: 10px;
 `;
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const AuthLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <Container>
       <Bg />
@@ -71,4 +71,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Layout;
+export default AuthLayout;
