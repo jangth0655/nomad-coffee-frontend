@@ -26,7 +26,10 @@ export const darkVar = makeVar(false);
 }); */
 
 const uploadHttpLink = createUploadLink({
-  uri: "http://localhost:4000/graphql",
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://nomad-backend-taehee.herokuapp.com/graphql"
+      : "http://localhost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
