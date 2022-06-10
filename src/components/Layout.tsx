@@ -23,7 +23,7 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1rem 2rem;
   color: white;
   background-color: ${(props) => props.theme.colors.dark};
   z-index: 100;
@@ -47,13 +47,14 @@ const Title = styled.div`
 
 const Username = styled.span`
   font-size: 0.7rem;
+  margin-top: 0.4rem;
 `;
 
 const Main = styled.main<{ showing?: boolean }>`
   margin: auto;
   max-width: 1024px;
   min-height: 100vh;
-  padding: ${(props) => (props.showing ? "6rem" : "1.2rem")} 1.2rem;
+  padding: ${(props) => (props.showing ? "6rem" : "1.2rem")} 1.5rem;
 `;
 
 const Back = styled.div`
@@ -92,6 +93,7 @@ const Layout: React.FC<LayoutProps> = ({
   const loggedIn = useReactiveVar(isLoggedInVar);
   const navigate = useNavigate();
   const { user } = useUser();
+
   const onBack = () => {
     navigate(-1);
   };
@@ -102,6 +104,11 @@ const Layout: React.FC<LayoutProps> = ({
   const onLogout = () => {
     logUserOut(navigate);
   };
+
+  const onProfile = (id?: number) => {
+    navigate(`/users/me/${id}`);
+  };
+
   return (
     <section>
       {showing ? (
@@ -118,14 +125,26 @@ const Layout: React.FC<LayoutProps> = ({
                 <FontAwesomeIcon icon={faRightFromBracket} />
               </Logout>
             ) : null}
-            {user ? (
-              <div>
-                <Avatar />
-                <Username>{user?.username}</Username>
-              </div>
-            ) : (
-              <Avatar></Avatar>
-            )}
+
+            <div
+              style={{ cursor: "pointer" }}
+              onClick={() => onProfile(user?.id)}
+            >
+              {user ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Avatar url={user.avatarURL} />
+                  <Username>{user?.username}</Username>
+                </div>
+              ) : (
+                <Avatar></Avatar>
+              )}
+            </div>
           </RightCol>
         </Nav>
       ) : null}

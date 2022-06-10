@@ -13,6 +13,8 @@ import SignUp from "./screens/SignUp";
 import { HelmetProvider } from "react-helmet-async";
 import CreateShops from "./screens/shops/CreateShop";
 import EditShop from "./screens/shops/EditShop";
+import Me from "./screens/shops/user/Me";
+import Profile from "./screens/shops/user/Profile";
 
 function App() {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -33,7 +35,8 @@ function App() {
               />
               <Route path={routes.upload} element={<CreateShops />} />
               <Route path={routes.editShop} element={<EditShop />} />
-              <Route path={routes.profile} />
+              <Route path={routes.me} element={<Me />} />
+              <Route path={routes.profile} element={<Profile />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </BrowserRouter>

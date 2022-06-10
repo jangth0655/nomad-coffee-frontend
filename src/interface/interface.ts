@@ -26,6 +26,7 @@ export interface User {
   seeFollowings: User[];
   seeFollowers: User[];
   isMe: boolean;
+  userCoffeeShops: CoffeeShop;
 }
 
 export interface CoffeeShop {

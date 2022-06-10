@@ -17,7 +17,7 @@ const ItemBox = styled.div`
 const ImageBox = styled.div`
   width: 18rem;
   height: 18rem;
-  background-color: ${(props) => props.theme.colors.darkLight};
+  background-color: white;
   width: 50%;
   border-radius: 5px; ;
 `;
@@ -27,7 +27,7 @@ const Img = styled.img`
   width: 100%;
   height: 100%;
   background-size: cover;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 const InfoBox = styled.div`
@@ -96,12 +96,12 @@ const EditBox = styled.div`
 `;
 
 interface CoffeeItemsProps {
-  id: number;
-  name: string;
-  slug: string;
+  id?: number;
+  name?: string;
+  slug?: string;
   payload?: string;
   photos?: Photo[];
-  user: User;
+  user?: User;
 }
 
 const CoffeeItem: React.FC<CoffeeItemsProps> = ({
@@ -118,11 +118,19 @@ const CoffeeItem: React.FC<CoffeeItemsProps> = ({
   const onEditShop = () => {
     navigate(`/shops/edit/${id}`, { state: { photos, name, payload, id } });
   };
+
+  const onProfile = (id?: number) => {
+    navigate(`/users/profile/${id}`, {
+      state: { user },
+    });
+  };
   return (
     <ItemBox>
-      <EditBox onClick={() => onEditShop()}>
-        <FontAwesomeIcon icon={faPen} />
-      </EditBox>
+      {user?.isMe && (
+        <EditBox onClick={() => onEditShop()}>
+          <FontAwesomeIcon icon={faPen} />
+        </EditBox>
+      )}
       <ImageBox>{photos && <Img src={firstPhoto} alt="" />}</ImageBox>
 
       <InfoBox>
@@ -138,8 +146,13 @@ const CoffeeItem: React.FC<CoffeeItemsProps> = ({
           <TextBox>
             <TitleName>Username</TitleName>
             <UserBox>
-              <Avatar url={user.avatarURL} />
-              <Username>{user.username}</Username>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => onProfile(user?.id)}
+              >
+                <Avatar url={user?.avatarURL} />
+              </div>
+              <Username>{user?.username}</Username>
             </UserBox>
           </TextBox>
         </TopBox>

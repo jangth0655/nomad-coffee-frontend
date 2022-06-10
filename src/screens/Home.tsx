@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons";
+import { faAnglesRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Layout from "../components/Layout";
 import styled from "styled-components";
@@ -47,6 +49,20 @@ const Upload = styled.div`
   }
 `;
 
+const PageBox = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  color: ${(props) => props.theme.colors.dark};
+  opacity: 0.5;
+  transition: 150ms all cubic-bezier(0.4, 0, 0.2, 1);
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 interface CoffeeShops {
   seeCoffeeShops: ShopWithUser[];
 }
@@ -59,6 +75,20 @@ const Home = () => {
       page,
     },
   });
+  const pageSize = 5;
+  const totalItems = data?.seeCoffeeShops.length;
+  const offset = totalItems ? Math.ceil(totalItems / pageSize) : 0;
+
+  const togglePage = (direction: "left" | "right") => {
+    if (direction === "left") {
+      page === 1 ? setPage(1) : setPage((prev) => prev - 1);
+    }
+    if (direction === "right" && totalItems) {
+      page === offset
+        ? setPage((prev) => prev + 1)
+        : setPage((prev) => prev - 1);
+    }
+  };
 
   const onCreateShop = () => {
     navigate("/shops/uploads");
@@ -66,6 +96,16 @@ const Home = () => {
 
   return (
     <Layout title="Home" showing={true} back={false}>
+      <PageBox>
+        <FontAwesomeIcon
+          onClick={() => togglePage("left")}
+          icon={faAnglesLeft}
+        />
+        <FontAwesomeIcon
+          onClick={() => togglePage("right")}
+          icon={faAnglesRight}
+        />
+      </PageBox>
       {data?.seeCoffeeShops.map((item) => (
         <CoffeeItem key={item.id} {...item} />
       ))}

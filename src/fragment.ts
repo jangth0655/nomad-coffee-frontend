@@ -5,13 +5,5 @@ export const USER_FRAGMENT = gql`
     id
     username
     avatarURL
-    totalFollowing
-    totalFollowers
-  }
-`;
-
-export const PHOTO_FRAGMENT = gql`
-  fragment PhotoFragment on CoffeeShop {
-    photos
   }
 `;

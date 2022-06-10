@@ -8,6 +8,9 @@ const ME_QUERY = gql`
   ${USER_FRAGMENT}
   query me {
     me {
+      name
+      email
+      githubUsername
       ...UserFragment
     }
   }

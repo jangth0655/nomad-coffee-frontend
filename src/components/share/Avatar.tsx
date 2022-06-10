@@ -8,7 +8,7 @@ interface AvatarProps {
 const AvatarBox = styled.div`
   width: 1.2rem;
   height: 1.2rem;
-  background-color: ${(props) => props.theme.colors.darkLight};
+  background-color: white;
   border-radius: 50%;
 `;
 
@@ -18,6 +18,7 @@ const AvatarUrl = styled.img`
   height: 100%;
   background-size: cover;
   object-fit: cover;
+  border-radius: 50%;
 `;
 
 const Avatar: React.FC<AvatarProps> = ({ url }) => {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Layout from "../../components/Layout";
 import PageTitle from "../../components/PageTitle";
@@ -67,6 +67,7 @@ const Description = styled(LabelName)``;
 const Location = styled(LabelName)``;
  */
 const SelectImage = styled.label`
+  position: relative;
   margin: auto;
   margin-bottom: 1.5rem;
   width: 100%;
@@ -89,6 +90,22 @@ const ImageFile = styled.input`
   display: none;
 `;
 
+const ImageBox = styled.div`
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+`;
+
+const Img = styled.img`
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  object-fit: contain;
+`;
+
 interface UploadForm {
   name: string;
   payload: string;
@@ -107,7 +124,8 @@ interface CreateShopMutation {
 const CreateShops: React.FC = () => {
   const loggedIn = useReactiveVar(isLoggedInVar);
   const navigate = useNavigate();
-  const { register, handleSubmit, setError } = useForm<UploadForm>();
+  const { register, handleSubmit, setError, watch } = useForm<UploadForm>();
+  const [prev, setPrev] = useState("");
   const onCompleted = (data: any) => {
     const {
       createCoffeeShop: { ok },
@@ -134,6 +152,14 @@ const CreateShops: React.FC = () => {
       },
     });
   };
+
+  const image = watch("url");
+  useEffect(() => {
+    if (image && image.length > 0) {
+      const imageFile = image[0];
+      setPrev(URL.createObjectURL(imageFile));
+    }
+  }, [image]);
 
   useEffect(() => {
     if (!loggedIn) {
@@ -180,6 +206,11 @@ const CreateShops: React.FC = () => {
         <SelectImage>
           <FontAwesomeIcon icon={faCloudArrowUp} size="4x" />
           <ImageFile {...register("url")} type="file" accept="image/*" />
+          {prev && (
+            <ImageBox>
+              <Img src={prev} />
+            </ImageBox>
+          )}
         </SelectImage>
         <ShareButton text="Submit" loading={loading} />
       </Form>
